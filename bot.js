@@ -2,24 +2,49 @@ const Discord = require('discord.js');
 const client = new Discord.Client();
 const ayarlar = require('./ayarlar.json');
 const bot = new Discord.Client();
-var prefix = ayarlar.prefix;
-message.prefix = prefix;
+var prefix = "*";
 
+//Değişen Oynuyor Kısmı
+bot.on('ready', () => {
+	console.log("Yukleniyor...");
+	setTimeout(function(){
+	console.log("Spotify Premium hesap dagitmaya devam ediyor");
+	}, 1000);
+	function botStatus() {
+        let status = [
+            `Prefix 》${botconfig.prefix}`,
+            `Teşekkürler 》${bot.guilds.size} sunucu.`,
+	    `Teşekkürler 》${bot.guilds.reduce((a, b) => a + b.memberCount, 0).toLocaleString()} kullanıcı.`,
+            `Bedava Spotify Premium Hesapları.`,
+ 	    `*hesapver 》Bedava hesap alabilirsiniz.`,
+	    `Proje Fikir Tarihi: 7 Haziran 2018 - Botu Açma Tarihi: 8 Haziran 2018`,
+	    `©2018 Bedava Spotify Premium™`,
+	    `*yardım 》Yardım alabilirsiniz.`,
+            `Botun Geliştiricisi 》 Enes Onur Ata#9427`
+        ];
+        let rstatus = Math.floor(Math.random() * status.length);
 
-//Komutlar Klasöründeki .js uzantılı dosyaları komut olarak algılaması için
-fs.readdir("./komutlar/", (err, files) => {
-    console.log(`Loaded ${files.length} commands.`)
+        bot.user.setActivity(status[rstatus], {Type: 'STREAMING'});        // BOT STATUS
+      }; setInterval(botStatus, 20000)
+        setInterval(() => {
+        dbl.postStats(bot.guilds.size)
+        }, 1800000);
+	})
+	
+	//Komutlar Klasöründeki .js uzantılı dosyaları komut olarak algılaması için
+	fs.readdir("./komutlar/", (err, files) => {
+    	console.log(`Loaded ${files.length} commands.`)
 	if(err) console.log(err);
 	let jsfile = files.filter(f => f.split(".").pop() === "js");
 	if(jsfile.length <= 0){
-	console.log("Couldn't find commands.");
+	console.log("Spotify Premium botunda bu isimde komut yok.");
 	return;
 	}
 
 
 	jsfile.forEach((f, i) =>{
 	let props = require(`./komutlar/${f}`);
-	console.log(`${f} loaded!`);
+	console.log(`Yuklendi : ${f}`);
 	bot.commands.set(props.help.name, props);
 	});
 	});
@@ -35,33 +60,9 @@ fs.readdir("./komutlar/", (err, files) => {
 	try {
 	let commandFile = require(`./commands/${cmd}.js`);
 	commandFile.run(bot, message, args);
-	if(!commandFile) return message.channel.send("No command found with that name.");
+	if(!commandFile) return message.channel.send("Spotify Premium botunda bu isimde komut yok.");
 	} catch (e) { console.log(e) }
-
-
-//Değişen Oynuyor Kısmı
-bot.on('ready', () => {
-	console.log("Yukleniyor...");
-	setTimeout(function(){
-	console.log("Spotify Premium hesap dagitmaya devam ediyor");
-	}, 1000);
-	function botStatus() {
-        let status = [
-            `Prefix 》${botconfig.prefix}`,
-            `Teşekkürler 》${bot.guilds.size} sunucu.`,
-            `Bedava Spotify Premium Hesapları.`,
-            `Botun Geliştiricisi 》 Enes Onur Ata#9427`,
-            `Teşekkürler 》${bot.guilds.reduce((a, b) => a + b.memberCount, 0).toLocaleString()} kullanıcı.`
-        ];
-        let rstatus = Math.floor(Math.random() * status.length);
-
-        bot.user.setActivity(status[rstatus], {Type: 'STREAMING'});        // BOT STATUS
-      }; setInterval(botStatus, 20000)
-        setInterval(() => {
-        dbl.postStats(bot.guilds.size)
-        }, 1800000);
-	})
-
+	
       //Botu ekleyen sunucu olursa log verecek
        bot.on('guildCreate', guild => {
 	      let channel = bot.channels.get("454511638649765888")
