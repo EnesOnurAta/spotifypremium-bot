@@ -1,6 +1,5 @@
 	const Discord = require("discord.js");
 	const client = new Discord.Client();
-	const ayarlar = require('./ayarlar.json');
 	const bot = new Discord.Client();
 	const fs = require("fs");
 	var prefix = "*";
