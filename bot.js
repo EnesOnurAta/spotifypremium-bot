@@ -96,5 +96,32 @@ bot.on('ready', () => {
         }, 1800000);
 	})
 
+      //Botu ekleyen sunucu olursa log verecek
+       bot.on('guildCreate', guild => {
+	      let channel = bot.channels.get("454511638649765888")
+        const embed = new Discord.RichEmbed()
+        .setColor("#cde246")
+        .setAuthor(`Katıldım 》${guild.name}`)
+        .setThumbnail(guild.iconURL)
+        .addField("Kurucu", guild.owner.user.tag)
+        .addField("ID", guild.id, true)
+        .addField("Üye Sayısı", guild.memberCount, true)
+        .addField("Kanal Sayısı", guild.channels.size, true)
+         channel.send(embed);
+	});
+        //Botu Atanlara log verexek
+	bot.on('guildDelete', guild => {
+	      let channel = bot.channels.get("454511638649765888")
+        const embed = new Discord.RichEmbed()
+        .setColor("#cde246")
+        .setAuthor(`Ayrıldım 》 ${guild.name}`)
+        .setThumbnail(guild.iconURL)
+        .addField("Kurucu", guild.owner.user.tag)
+        .addField("ID", guild.id, true)
+        .addField("Üye Sayısı", guild.memberCount, true)
+        .addField("Kanal Sayısı", guild.channels.size, true)
+         channel.send(embed);
+	});
+
 //Token
 client.login(process.env.BOT_TOKEN);
