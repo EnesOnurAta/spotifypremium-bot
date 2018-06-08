@@ -89,5 +89,48 @@ bot.on('ready', () => {
          channel.send(embed);
 	});
 
+        //Sunucumuza girenlere log verecek - Üye rolü verecek
+        bot.on('guildMemberAdd', member => {
+        bot.channels.get('439792255365021696').setName(`Toplam Kullanıcı: ${member.guild.memberCount}`)
+        let humans = member.guild.members.filter(m => !m.user.bot).size;
+        bot.channels.get('439793088001736725').setName(`Üye Sayısı: ${humans}`)
+        let bots = member.guild.members.filter(m => m.user.bot).size;
+        bot.channels.get('439793716052623361').setName(`Bot Sayısı: ${bots}`)
+	const members = member.guild.memberCount;
+	const channel = member.guild.channels.find('name', 'uye-log');
+	if (!channel) return;
+
+       let Role = member.guild.roles.find(`name`, "Bot");
+       if(member.user.bot){
+	member.addRole(Role.id)
+       }else{
+      let role = member.guild.roles.find(`name`, "Üye");
+	member.addRole(role.id)
+       }
+ 
+	let Embed = new Discord.RichEmbed()
+	.setFooter(`Üye Katıldı | Kaç Kişi Olduk = ${member.guild.memberCount}`)
+	.setColor("#cde246")    
+	.setAuthor(`${member.displayName} isimli üye ${member.guild.name} sunucusuna katıldı`, member.user.displayAvatarURL)
+	.setTimestamp()
+	channel.send(Embed);
+	});
+	bot.on('guildMemberRemove', member => {
+    bot.channels.get('439792255365021696').setName(`Toplam Kullanıcı: ${member.guild.memberCount}`)
+    let humans = member.guild.members.filter(m => !m.user.bot).size;
+    bot.channels.get('439793088001736725').setName(`Üye Sayısı: ${humans}`)
+    let bots = member.guild.members.filter(m => m.user.bot).size;
+    bot.channels.get('439793716052623361').setName(`Bot Sayısı: ${bots}`)
+	const channel = member.guild.channels.find(`name`, 'uye-log');
+	if(!channel) return; 
+	let Embed = new Discord.RichEmbed()
+	.setColor("#e26346")
+	.setAuthor(`${member.displayName} isimli üye ${member.guild.name} sunucusundan ayrıldı.`, member.user.displayAvatarURL)
+	.setTimestamp()
+	.setFooter(`Üye Ayrıldı | Kaç Kişi Olduk = ${member.guild.memberCount}`)
+	channel.send(Embed);
+	});
+
+
 //Token
 client.login(process.env.BOT_TOKEN);
